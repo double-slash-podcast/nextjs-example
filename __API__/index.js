@@ -19,7 +19,8 @@ export const getPage = async (slug) => {
   await new Promise((r) => setTimeout(r, 400))
   const page = pages.find((p) => p.slug === slug)
   if (page) return page
-  throw new Error(`Slug ${slug} not found on pages`)
+  return undefined
+  //   throw new Error(`Slug ${slug} not found on pages`)
 }
 
 export const getTotalPages = async (offset = 100) => {
@@ -46,5 +47,6 @@ export const getPost = async (slug) => {
   await new Promise((r) => setTimeout(r, 400))
   const post = posts.find((p) => p.id === slug)
   if (post) return post
-  throw new Error(`Slug ${slug} not found on posts`)
+  return undefined
+  //   throw new Error(`Slug ${slug} not found on posts`)
 }

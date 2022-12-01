@@ -11,9 +11,17 @@ export default function Page({ page }) {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps({ params }) {
+  // slug in first param
+  const [slug] = params.slug || []
   const navigation = await getNav()
-  const page = await getPage(context.params.slug)
+  // not slug === home
+  const page = await getPage(slug || '')
+  if (!page) {
+    return {
+      notFound: true,
+    }
+  }
   return {
     props: { navigation, page },
   }
@@ -23,7 +31,8 @@ export async function getStaticPaths() {
   const pages = await getPages()
   // remove home
   pages.shift()
-  const paths = pages.map((p) => ({ params: { slug: p.slug } }))
+  const paths = pages.map((p) => `/${p.slug}`)
+  paths.push('/')
   return {
     paths,
     fallback: true,
